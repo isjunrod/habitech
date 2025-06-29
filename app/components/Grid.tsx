@@ -1,15 +1,48 @@
-import PropertyCard from './PropertyCard';
-import data from '@/db/db.json';
+'use client'
 
-export default function PropertyGrid() {
+import PropertyCard from './card/Property';
+import { VariableSizeGrid } from 'react-window';
+import { Property } from '../shared/types/types';
+
+const Cell = ({ columnIndex, rowIndex, style, data }: any) => {
+    const itemIndex = rowIndex * 3 + columnIndex;
+    const property = data[itemIndex];
+
+    if (!property) {
+        return <div style={style} />;
+    }
+
     return (
-        <main className="max-w-7xl mx-auto px-6 py-8">
-            {/* Grid de propiedades */} 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {data?.map((property) => (
-                    <PropertyCard key={property.id} property={property}/>
-                ))}
-            </div>
+        <div style={{ ...style, padding: '10px' }}>
+            <PropertyCard property={property} />
+        </div>
+    );
+}
+
+export default function Grid({ dataFiltered }: { dataFiltered: Property[] }) {
+    const rowCount = Math.ceil(dataFiltered.length / 3);
+
+    return (
+        <main className="max-w-7xl mx-auto pt-3">
+            <div className="flex justify-center">
+                <VariableSizeGrid
+                    columnCount={3}
+                    columnWidth={index => 400}
+                    height={800}
+                    rowCount={rowCount}
+                    rowHeight={index => 400}
+                    width={1200}
+                    itemData={dataFiltered}
+                    style={{
+                        overflowX: 'hidden',
+                        scrollbarWidth: 'none',
+                        msOverflowStyle: 'none',
+                    }}
+                    className="[&::-webkit-scrollbar]:hidden"
+                >
+                    {Cell}
+                </VariableSizeGrid>
+            </div >
         </main>
     );
 }
