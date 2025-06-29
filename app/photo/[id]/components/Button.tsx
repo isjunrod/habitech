@@ -1,3 +1,5 @@
+'use client';
+
 function Button({text}: { text: string }) {
     return (
         <div className="pt-6">
