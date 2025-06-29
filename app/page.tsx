@@ -79,17 +79,13 @@ export default function HomePage() {
 
     // Aplicar los filtros y actualizar los datos filtrados
     const handleApplyFilters = (filters: FilterData) => {
-        // Precio en un rango aproximado de +-20
-        const firstRange = Number(filters.precioMin) - 20;
-        const secondRange = Number(filters.precioMax) + 20;
-
         // Filtrar los datos según los filtros aplicados
         const filteredData = data.filter(property => {
             return (
                 (filters.city ? property.city.toLowerCase().includes(filters.city.toLowerCase()) : true) &&
                 (filters.type ? property.type.toLowerCase() === filters.type.toLowerCase() : true) &&
-                (filters.precioMin ? property.price >= firstRange : true) &&
-                (filters.precioMax ? property.price <= secondRange : true) &&
+                (filters.precioMin ? property.price >= Number(filters.precioMin) - 20 : true) &&
+                (filters.precioMax ? property.price <= Number(filters.precioMax) + 20 : true) &&
                 (filters.rooms ? property.rooms >= Number(filters.rooms) : true) &&
                 (filters.square_meters ? property.square_meters >= Number(filters.square_meters) : true) &&
                 (filters.guests ? property.guests >= Number(filters.guests) : true)
