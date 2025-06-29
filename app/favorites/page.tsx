@@ -5,6 +5,7 @@ import { Property } from '../types/types';
 import PropertyCard from '../components/card/Property';
 import { HeartIcon } from 'lucide-react';
 import data from '@/db/db.json';
+import Link from 'next/link';
 
 export default function FavoritesPage() {
     const [favoriteProperties, setFavoriteProperties] = useState<Property[]>([]);
@@ -44,12 +45,12 @@ export default function FavoritesPage() {
                         <p className="text-gray-600 mb-8 max-w-md mx-auto">
                             Explora nuestras propiedades y marca las que más te gusten haciendo clic en la estrella.
                         </p>
-                        <a
+                        <Link
                             href="/"
                             className="inline-flex items-center px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors"
                         >
                             Explorar Propiedades
-                        </a>
+                        </Link>
                     </div>
                 </div>
             </div>
