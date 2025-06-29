@@ -1,5 +1,5 @@
 import React from 'react'
-import { Property } from '../../shared/types/types'
+import { Property } from '../../types/types'
 
 export default function Information({ property }: { property: Property }) {
     return (

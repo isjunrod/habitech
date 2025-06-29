@@ -1,5 +1,5 @@
 import Image from "@app/components/card/Image";
-import { type Property } from "../../shared/types/types";
+import { type Property } from "../../types/types";
 import Information from "./Information";
 
 export default function Property({ property }: { property: Property }) {

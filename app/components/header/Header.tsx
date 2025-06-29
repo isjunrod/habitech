@@ -1,5 +1,5 @@
 
-import { FilterData } from "../../shared/types/types";
+import { FilterData } from "../../types/types";
 import Filters from "./Filters";
 
 export interface Props {

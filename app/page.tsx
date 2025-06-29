@@ -5,12 +5,16 @@ import Header from './components/header/Header';
 import Grid from './components/Grid';
 import FilterModal from './components/FilterModal';
 import data from '@/db/db.json';
-import { FilterData, Property } from './shared/types/types';
+import { FilterData, Property } from './types/types';
 
+/**
+ * Página principal de la aplicación de propiedades inmobiliarias.
+ * Maneja la lógica de filtros, búsqueda y visualización de propiedades.
+ */
 export default function HomePage() {
     const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
-    // Filtros aplicados
-    // Inicialmente, los filtros están vacíos
+
+    // Estado de filtros - inicialmente vacíos
     const [appliedFilters, setAppliedFilters] = useState<FilterData>({
         city: '',
         type: '',
@@ -20,11 +24,15 @@ export default function HomePage() {
         square_meters: '',
         guests: ''
     });
-    // Datos filtrados
-    const [dataFiltered, setDataFiltered] = useState<Property[] | []>(data);
 
-    // Manejar el cambio de filtros
-    const handleFilterChange = (field: keyof FilterData, value: string) => {
+    // Datos procesados (filtrados y ordenados)
+    const [dataFiltered, setDataFiltered] = useState<Property[]>(data);
+
+    /**
+     * Maneja los cambios en los filtros individuales.
+     * Actualiza el estado de filtros aplicados.
+     */
+    const handleFilterChange = (field: keyof FilterData, value: string): void => {
         setAppliedFilters(prev => ({
             ...prev,
             [field]: value

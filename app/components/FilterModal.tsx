@@ -1,7 +1,7 @@
 'use client'
 
 import { X, Users, Square, Bed } from 'lucide-react';
-import { FilterData } from '../shared/types/types';
+import { FilterData } from '../types/types';
 
 interface FilterModalProps {
     isOpen: boolean;

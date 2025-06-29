@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Property } from '../shared/types/types';
+import { Property } from '../types/types';
 import PropertyCard from '../components/card/Property';
 import { HeartIcon } from 'lucide-react';
 import data from '@/db/db.json';

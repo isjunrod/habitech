@@ -1,54 +1,36 @@
 'use client';
 
 import { EyeIcon, StarIcon } from 'lucide-react';
-import { Property } from '../../shared/types/types';
+import { Property } from '../../types/types';
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { isFavorite as checkIsFavorite, toggleFavorite } from '../../utils/favoritesUtils';
 
-export default function Image({ property }: { property: Property }) {
-    const [isFavorite, setIsFavorite] = useState(false);
-    const router = useRouter();
+interface ImageProps {
+    property: Property;
+}
 
-    // Verificar si está en favoritos al cargar el componente
+/**
+ * Componente de imagen para las tarjetas de propiedades.
+ * Maneja la funcionalidad de favoritos y navegación con transiciones.
+ */
+export default function Image({ property }: ImageProps) {
+    const [isFavoriteState, setIsFavoriteState] = useState(false);
+
+// Verificar estado de favorito al cargar el componente
     useEffect(() => {
-        const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
-        setIsFavorite(favorites.includes(property.id));
+        setIsFavoriteState(checkIsFavorite(property.id));
     }, [property.id]);
 
-    function handleFavoriteClick(e: React.MouseEvent) {
-        // Evita que el click se propague al Link
-        e.stopPropagation();
+    /**
+     * Maneja el click en el botón de favoritos.
+     * Alterna el estado y actualiza localStorage.
+     */
+    const handleFavoriteClick = (e: React.MouseEvent): void => {
+        e.stopPropagation(); // Evita propagación al Link padre
 
-        const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
-        const index = favorites.indexOf(property.id);
-
-        if (index > -1) {
-            // Si ya está en favoritos, lo quitamos
-            favorites.splice(index, 1);
-            setIsFavorite(false);
-        } else {
-            // Si no está, lo agregamos
-            favorites.push(property.id);
-            setIsFavorite(true);
-        }
-
-        // Guardar los cambios en localStorage
-        localStorage.setItem("favorites", JSON.stringify(favorites));
-    }
-
-    const handleImageClick = (e: React.MouseEvent) => {
-        e.preventDefault();
-
-        // View Transition API si está disponible
-        if ('startViewTransition' in document) {
-            (document as any).startViewTransition(() => {
-                router.push(`/photo/${property.id}`);
-            });
-        } else {
-            // Fallback para navegadores que no soportan View Transitions
-            router.push(`/photo/${property.id}`);
-        }
+        const newFavoriteState = toggleFavorite(property.id);
+        setIsFavoriteState(newFavoriteState);
     };
 
     return (
@@ -56,7 +38,6 @@ export default function Image({ property }: { property: Property }) {
             {/* Imagen clickeable que abre el modal con animación */}
             <Link
                 className="block cursor-pointer"
-                onClick={handleImageClick}
                 href={`/photo/${property.id}`}
                 prefetch={true}
             >
@@ -75,7 +56,7 @@ export default function Image({ property }: { property: Property }) {
                 onClick={(e) => handleFavoriteClick(e)}
             >
                 <StarIcon
-                    className={`w-4 h-4 transition-colors duration-200 ${isFavorite
+                    className={`w-4 h-4 transition-colors duration-200 ${isFavoriteState
                         ? 'text-yellow-500 fill-yellow-500'
                         : 'text-gray-400 hover:text-yellow-400'
                         }`}
@@ -83,14 +64,13 @@ export default function Image({ property }: { property: Property }) {
             </button>
 
             {/* Logo de ojo en el centro al hacer hover */}
-            <div
-                className="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-200 cursor-pointer"
-                onClick={handleImageClick}
-            >
-                <div className="bg-white bg-opacity-90 rounded-lg p-3 shadow-sm">
-                    <EyeIcon className="w-5 h-5 text-gray-600" />
+            <Link href={`/photo/${property.id}`}>
+                <div className="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-200 cursor-pointer">
+                    <div className="bg-white bg-opacity-90 rounded-lg p-3 shadow-sm">
+                        <EyeIcon className="w-5 h-5 text-gray-600" />
+                    </div>
                 </div>
-            </div>
+            </Link>
         </div >
     );
 }
