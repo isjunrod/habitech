@@ -1,7 +1,7 @@
 import React from 'react';
-import {PropertyCardProps} from "@app/components/card/types";
+import { Property } from '../../../shared/types/types';
 
-function Image({property}: PropertyCardProps) {
+function Image({ property }: { property: Property }) {
     return (
         <div className="relative h-96 lg:h-[600px]">
             <img

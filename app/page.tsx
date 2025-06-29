@@ -9,6 +9,8 @@ import { FilterData, Property } from './shared/types/types';
 
 export default function HomePage() {
     const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
+    // Filtros aplicados
+    // Inicialmente, los filtros están vacíos
     const [appliedFilters, setAppliedFilters] = useState<FilterData>({
         city: '',
         type: '',
@@ -18,6 +20,7 @@ export default function HomePage() {
         square_meters: '',
         guests: ''
     });
+    // Datos filtrados
     const [dataFiltered, setDataFiltered] = useState<Property[] | []>(data);
 
     // Manejar el cambio de filtros

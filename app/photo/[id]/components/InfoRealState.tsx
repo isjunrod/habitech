@@ -1,6 +1,6 @@
 import React from 'react';
 import Button from "@app/photo/[id]/components/Button";
-import {Property, PropertyCardProps} from "@app/components/card/types";
+import { Property } from '../../../shared/types/types';
 
 function InfoRealState({property}: { property: Property }) {
 

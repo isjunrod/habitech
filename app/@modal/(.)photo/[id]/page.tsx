@@ -39,36 +39,37 @@ export default function InterceptedPhoto({ params }: InterceptedPhotoProps) {
         notFound();
     }
 
-    useEffect(() => {
-        async function getProxiedImageUrl() {
-            if (!property) {
-                notFound();
-            }
-
-            const response = await fetchProxiedImage(property.image);
-            const result = await response;
-
-            if (!result) {
-                console.error('Failed to fetch proxied image');
-                return;
-            }
-
-            setProxiedImageSrc(result);
+    async function getProxiedImageUrl() {
+        if (!property) {
+            notFound();
         }
 
+        const response = await fetchProxiedImage(property.image);
+        const result = await response;
+
+        if (!result) {
+            console.error('Failed to fetch proxied image');
+            return;
+        }
+
+        setProxiedImageSrc(result);
+    }
+
+    useEffect(() => {
         getProxiedImageUrl();
     }, [property.image]);
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center ">
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
             {/* Overlay */}
             <div
-                className="absolute inset-0 bg-black/80"
-                style={{ backdropFilter: 'blur(10px)' }}
+                className="absolute inset-0 bg-black/80 backdrop-blur-sm"
             />
 
             {/* Modal Content */}
-            <div className="relative z-10 h-[30rem] w-[50rem] rounded-4xl">
+            <div
+                className="relative z-10 h-[30rem] w-[50rem] rounded-4xl"
+            >
                 <div className="w-full h-full rounded-lg overflow-hidden">
                     {/* Boton de cerrar */}
                     <button
