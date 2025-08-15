@@ -1,2 +1,0 @@
-## Esquema 
-![Esquema](esquema.png)
